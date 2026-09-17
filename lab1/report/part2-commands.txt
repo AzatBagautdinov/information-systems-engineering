@@ -1,0 +1,70 @@
+===== Задача 2.1 =====
+$ gh repo create information-systems-engineering --public --description Лабораторные работы по дисциплине «Инженерия информационных систем»
+https://github.com/AzatBagautdinov/information-systems-engineering
+
+$ git remote add origin https://github.com/AzatBagautdinov/information-systems-engineering.git
+
+$ git checkout main
+Switched to branch 'main'
+
+$ git merge feature/calculator-improvements
+Updating a980490..368f3d1
+Fast-forward
+ lab1/package-lock.json         | 3665 ++++++++++++++++++++++++++++++++++++++++
+ lab1/report/part1-answers.md   |   47 +
+ lab1/report/part1-commands.txt |  130 ++
+ lab1/src/app.js                |   17 +
+ lab1/tests/app.test.js         |   18 +-
+ 5 files changed, 3875 insertions(+), 2 deletions(-)
+ create mode 100644 lab1/package-lock.json
+ create mode 100644 lab1/report/part1-answers.md
+ create mode 100644 lab1/report/part1-commands.txt
+
+$ git push -u origin main
+To https://github.com/AzatBagautdinov/information-systems-engineering.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+
+$ git push origin feature/testing-improvements
+remote: 
+remote: Create a pull request for 'feature/testing-improvements' on GitHub by visiting:        
+remote:      https://github.com/AzatBagautdinov/information-systems-engineering/pull/new/feature/testing-improvements        
+remote: 
+To https://github.com/AzatBagautdinov/information-systems-engineering.git
+ * [new branch]      feature/testing-improvements -> feature/testing-improvements
+
+===== Задача 2.6 =====
+$ git commit -m Add CI/CD pipeline with GitHub Actions and Docker support
+[main b0be0c2] Add CI/CD pipeline with GitHub Actions and Docker support
+ 6 files changed, 321 insertions(+), 2 deletions(-)
+ create mode 100644 .github/workflows/lab1-advanced-ci.yml
+ create mode 100644 .github/workflows/lab1-ci.yml
+ create mode 100644 lab1/.dockerignore
+ create mode 100644 lab1/Dockerfile
+ create mode 100644 lab1/tests/integration.test.js
+
+$ git push origin main
+To https://github.com/AzatBagautdinov/information-systems-engineering.git
+   368f3d1..b0be0c2  main -> main
+
+$ git checkout -b feature/pipeline-testing
+Switched to a new branch 'feature/pipeline-testing'
+
+$ git commit -m Add pipeline testing documentation
+[feature/pipeline-testing ecb934c] Add pipeline testing documentation
+ 1 file changed, 3 insertions(+)
+
+$ git push -u origin feature/pipeline-testing
+remote: 
+remote: Create a pull request for 'feature/pipeline-testing' on GitHub by visiting:        
+remote:      https://github.com/AzatBagautdinov/information-systems-engineering/pull/new/feature/pipeline-testing        
+remote: 
+To https://github.com/AzatBagautdinov/information-systems-engineering.git
+ * [new branch]      feature/pipeline-testing -> feature/pipeline-testing
+branch 'feature/pipeline-testing' set up to track 'origin/feature/pipeline-testing'.
+
+$ gh pr create --base main --head feature/pipeline-testing --title Pipeline testing --body Ветка для проверки работы CI/CD pipeline (ЛР1, задачи 2.6 и 3.2).
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+https://github.com/AzatBagautdinov/information-systems-engineering/pull/1
+

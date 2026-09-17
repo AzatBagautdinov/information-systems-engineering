@@ -1,0 +1,94 @@
+===== Задача 3.2: намеренная ошибка =====
+$ git commit -m Introduce test failure for pipeline testing
+[feature/pipeline-testing c553f7d] Introduce test failure for pipeline testing
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+$ git push origin feature/pipeline-testing
+To https://github.com/AzatBagautdinov/information-systems-engineering.git
+   ecb934c..c553f7d  feature/pipeline-testing -> feature/pipeline-testing
+
+$ gh run list --limit 3
+completed	failure	Pipeline testing	Lab1 Advanced CI/CD Pipeline	feature/pipeline-testing	pull_request	35203600402	17s	2026-09-17T09:09:43Z
+completed	failure	Pipeline testing	Lab1 CI/CD Pipeline	feature/pipeline-testing	pull_request	35203600396	15s	2026-09-17T09:09:43Z
+completed	failure	Introduce test failure for pipeline testing	Lab1 Advanced CI/CD Pipeline	feature/pipeline-testing	push	35203596497	17s	2026-09-17T09:09:40Z
+
+$ gh run view 35203596497
+X feature/pipeline-testing Lab1 Advanced CI/CD Pipeline AzatBagautdinov/information-systems-engineering#1 · 35203596497
+Triggered via push less than a minute ago
+JOBS
+X quality-checks in 13s (ID 105143921218)
+  ✓ Set up job
+  ✓ Checkout code
+  ✓ Setup Node.js
+  ✓ Install dependencies
+  ✓ Run linter
+  X Run tests with coverage
+  - Upload coverage reports
+  - Security audit
+  - Post Setup Node.js
+  ✓ Post Checkout code
+  ✓ Complete job
+- build-and-test in 0s (ID 105143997260)
+- docker-operations (ID 105143997604)
+- deploy-production (ID 105143998722)
+- deploy-staging (ID 105143998813)
+ANNOTATIONS
+X Process completed with exit code 1.
+To see what failed, try: gh run view 35203596497 --log-failed
+View this run on GitHub: https://github.com/AzatBagautdinov/information-systems-engineering/actions/runs/35203596497
+
+$ gh run view 35203600396
+X feature/pipeline-testing Lab1 CI/CD Pipeline AzatBagautdinov/information-systems-engineering#1 · 35203600396
+Triggered via pull_request less than a minute ago
+JOBS
+X test (18.x) in 11s (ID 105143933804)
+X test (22.x) in 8s (ID 105143933955)
+  ✓ Set up job
+  ✓ Checkout code
+  ✓ Setup Node.js 22.x
+  ✓ Install dependencies
+  ✓ Run linter
+  X Run tests
+  - Build application
+  - Post Setup Node.js 22.x
+  ✓ Post Checkout code
+  ✓ Complete job
+X test (20.x) in 12s (ID 105143933982)
+- docker-build in 0s (ID 105144005686)
+ANNOTATIONS
+X The strategy configuration was canceled because "test._22_x" failed
+test (18.x): .github#1
+test (18.x): .github#2
+X The operation was canceled.
+test (18.x): .github#27
+test (22.x): .github#2
+X Process completed with exit code 1.
+test (22.x): .github#34
+X The strategy configuration was canceled because "test._22_x" failed
+test (20.x): .github#1
+test (20.x): .github#2
+X The operation was canceled.
+test (20.x): .github#25
+To see what failed, try: gh run view 35203600396 --log-failed
+View this run on GitHub: https://github.com/AzatBagautdinov/information-systems-engineering/actions/runs/35203600396
+
+$ gh run view 35203596497 --log-failed (фрагмент)
+  ● Math functions › adds 2 + 3 to equal 5
+    Expected: 6
+    Received: 5
+Tests:       1 failed, 7 passed, 8 total
+
+===== Задача 3.2: исправление ошибки =====
+$ git commit -m Fix intentionally broken test
+[feature/pipeline-testing 462e77a] Fix intentionally broken test
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+$ git push origin feature/pipeline-testing
+To https://github.com/AzatBagautdinov/information-systems-engineering.git
+   c553f7d..462e77a  feature/pipeline-testing -> feature/pipeline-testing
+
+$ gh run list --branch feature/pipeline-testing --limit 3
+completed	success	Pipeline testing	Lab1 CI/CD Pipeline	feature/pipeline-testing	pull_request	35203667289	21s	2026-09-17T09:10:27Z
+completed	success	Pipeline testing	Lab1 Advanced CI/CD Pipeline	feature/pipeline-testing	pull_request	35203667284	39s	2026-09-17T09:10:27Z
+completed	success	Fix intentionally broken test	Lab1 Advanced CI/CD Pipeline	feature/pipeline-testing	push	35203663294	37s	2026-09-17T09:10:25Z
+
