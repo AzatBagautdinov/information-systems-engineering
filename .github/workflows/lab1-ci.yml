@@ -1,0 +1,74 @@
+name: Lab1 CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'lab1/**'
+      - '.github/workflows/lab1-ci.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'lab1/**'
+      - '.github/workflows/lab1-ci.yml'
+
+defaults:
+  run:
+    working-directory: lab1
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: npm
+        cache-dependency-path: lab1/package-lock.json
+
+    - name: Install dependencies
+      run: |
+        npm install
+
+    - name: Run linter
+      run: npm run lint
+
+    - name: Run tests
+      run: npm test
+
+    - name: Build application
+      run: npm run build
+
+  docker-build:
+
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build and test Docker image
+        run: docker build --target test -t git-cicd-lab:test .
+
+      - name: Build production Docker image
+        run: docker build --target production -t git-cicd-lab:latest .
+
+      - name: Test production image startup
+        run: |
+          docker run -d --name test-container git-cicd-lab:latest
+          sleep 5
+          docker logs test-container
+          docker stop test-container
+          docker rm test-container
